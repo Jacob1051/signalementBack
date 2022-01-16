@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/SignalisationBack">
+	<WatchedResource>WEB-INF/web.xml</WatchedResource>
+	<Resource name="connpool" auth="Container" type="javax.sql.DataSource"
+	        maxActive="100" maxIdle="30" maxWait="10000"
+	        username="zeus_db4free" password="mdpprom13" driverClassName="com.mysql.cj.jdbc.Driver"
+	        url="jdbc:mysql://db4free.net:3306/signalisation?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;serverTimezone=UTC"/>
+</Context>
