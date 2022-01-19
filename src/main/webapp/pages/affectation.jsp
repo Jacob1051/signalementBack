@@ -1,7 +1,8 @@
-<%@page import="data.Signalement,java.util.ArrayList" %>
+<%@page import="data.Signalement,data.Region,java.util.ArrayList" %>
 <%
     int pagination = 10;
     ArrayList<Signalement> listes = (ArrayList<Signalement>)request.getAttribute("listes");
+    ArrayList<Region> listeRegion = (ArrayList<Region>)request.getAttribute("listeRegion");
     int nbPage = Integer.parseInt(request.getAttribute("nbSignalement")+"");
 %>
 
@@ -11,12 +12,13 @@
             <div class="card-header pb-0">
               <div class="row">
                 <div class="col-lg-6 col-7">
-                  <h6>Liste des Signalements</h6>
+                  <h6>Affectation des Signalements</h6>
                 </div>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
               <div class="table-responsive">
+                <form action="${pageContext.request.contextPath}/Affectation" method="POST">
                 <table class="table align-items-center mb-0">
                   <thead>
                     <tr>
@@ -27,7 +29,7 @@
                   </thead>
                   <tbody>
                     <%
-                        for(int i=0; i<listes.size(); i++){
+                        for(int i=0; i<listes.size(); i++) {
                     %>
                     <tr>
                       <td>
@@ -42,26 +44,36 @@
                       </td>
                       <td class="align-middle">
                         <div class="col-lg-3 col-sm-3 col-3">
-                            <a class="btn bg-gradient-success w-100 mb-0 toast-btn" type="button" href="${pageContext.request.contextPath}/Validation?id=<%= listes.get(i).getId()%>&i=1">Accept</a>
-                          <a class="btn bg-gradient-danger w-100 mb-0 toast-btn" type="button" href="${pageContext.request.contextPath}/Validation?id=<%= listes.get(i).getId()%>&i=0">Refuse</a>
+                            <select name="<%= listes.get(i).getId()%>_report">
+                                <%
+                                    for(int ii=0; ii<listeRegion.size(); ii++){
+                                %>
+                                <option value="<%=listeRegion.get(ii).getId()%>"><%=listeRegion.get(ii).getNom()%></option>
+                                <%
+                                    }
+                                %>
+                            </select>
                         </div>
                       </td>
                     </tr>
                     <%
                         }
                     %>
+                    <tr>
+                        <td colspan="3"><input class="btn bg-gradient-success w-100 mb-0" type="submit" value="Valider"></td>
+                    </tr>
                   </tbody>
                 </table>
+                </form>
               </div>
             </div>
           </div>
         </div>
-      </div>
-
-<nav aria-label="Page navigation example">
+        </br>
+        <nav aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/pages/home.jsp?onglet=2&pages=<%=((Integer.parseInt(request.getParameter("pages"))-1)<0)?request.getParameter("pages"):(Integer.parseInt(request.getParameter("pages"))-1)%>" aria-label="Previous">
+                <a class="page-link" href="${pageContext.request.contextPath}/pages/home.jsp?onglet=3&pages=<%=((Integer.parseInt(request.getParameter("pages"))-1)<0)?request.getParameter("pages"):(Integer.parseInt(request.getParameter("pages"))-1)%>" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
@@ -69,17 +81,21 @@
                 int neededPages = (int)Math.ceil(nbPage/10d);
                 for(int iii=0; iii<neededPages; iii++) { 
             %>
-                <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/pages/home.jsp?onglet=2&pages=<%=iii%>"><%=iii+1%></a></li>
+                <li class="page-item"><a class="page-link" href="${pageContext.request.contextPath}/pages/home.jsp?onglet=3&pages=<%=iii%>"><%=iii+1%></a></li>
             <% } %>
             <li class="page-item">
-                <a class="page-link" href="${pageContext.request.contextPath}/pages/home.jsp?onglet=2&pages=<%=((Integer.parseInt(request.getParameter("pages"))+1)>=neededPages)?request.getParameter("pages"):(Integer.parseInt(request.getParameter("pages"))+1)%>" aria-label="Next">
+                <a class="page-link" href="${pageContext.request.contextPath}/pages/home.jsp?onglet=3&pages=<%=((Integer.parseInt(request.getParameter("pages"))+1)>=neededPages)?request.getParameter("pages"):(Integer.parseInt(request.getParameter("pages"))+1)%>" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
         </ul>
     </nav>
-                  
-<div class="container-fluid py-4">
+                    
+      </div>
+                    
+    
+    
+    <div class="container-fluid py-4">
       <footer class="footer py-4  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">

@@ -15,7 +15,7 @@
 <%@page import="data.Admin"%>
 <%   
     if(session.getAttribute("admin")==null){
-        response.sendRedirect("./pages/sign-in.jsp");
+        response.sendRedirect(request.getContextPath()+"/pages/sign-in.jsp");
     }else{
 %>
 <!DOCTYPE html>
@@ -141,10 +141,12 @@
         switch(Integer.parseInt(onglet)) {
           case 1:
     %><jsp:include page="dashboard.jsp" /><%
-            
             break;
           case 2:
-    %><jsp:include page="validation.jsp" /><%
+    %><jsp:include page="/Validation" /><%
+            break;
+          case 3:
+    %><jsp:include page="/Affectation" /><%
             break;
           default:
         }

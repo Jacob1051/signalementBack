@@ -12,6 +12,11 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 -->
+<%@page import="data.Dashboard" %>
+<%
+    int pagination = 10;
+    Dashboard d = new Dashboard(application.getAttribute("connexion"));
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -47,7 +52,7 @@
                 <i class="material-icons opacity-10">weekend</i>
               </div>
               <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">Today's Money</p>
+                <p class="text-sm mb-0 text-capitalize">Signalement d'aujourd'hui</p>
                 <h4 class="mb-0">$53k</h4>
               </div>
             </div>
@@ -64,13 +69,13 @@
                 <i class="material-icons opacity-10">person</i>
               </div>
               <div class="text-end pt-1">
-                <p class="text-sm mb-0 text-capitalize">Today's Users</p>
-                <h4 class="mb-0">2,300</h4>
+                <p class="text-sm mb-0 text-capitalize">Total Utilisateur</p>
+                <h4 class="mb-0"><%=d.getNbUsers() %></h4>
               </div>
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-3">
-              <p class="mb-0"><span class="text-success text-sm font-weight-bolder">+3% </span>than lask month</p>
+              <p class="mb-0"><span class="text-success text-sm font-weight-bolder"></p>
             </div>
           </div>
         </div>

@@ -110,11 +110,52 @@ public class Signalement {
         //select * from Signalement where id not in(select idSignalement from Affectation);
     }
     
+    public int getNbSignalement(Object connexion) throws Exception {
+        Connection c = ((Connexion)connexion).getConnexion();
+        PreparedStatement ps = c.prepareStatement("select COUNT(*) as Nb from Signalement join Category on Category.id = Signalement.idCategory where Signalement.id not in (select id from vSignalementRepondu) and Signalement.id not in (select idSignalement from Valide)");
+        ResultSet result = ps.executeQuery();
+        int results = 0;
+        while(result.next()){
+            results = result.getInt("Nb");
+        }
+        c.close();
+        return results;
+    }
+    
     public ArrayList<Signalement> getSignalementNonRepondu(Object connexion, String pagination, String nbItems) throws Exception {
-        Connection c = ((Connexion)connexion).getDataSource().getConnection();
+        Connection c = ((Connexion)connexion).getConnexion();
         PreparedStatement ps = c.prepareStatement("select *, Category.nom as nomC from Signalement join Category on Category.id = Signalement.idCategory where Signalement.id not in (select id from vSignalementRepondu) LIMIT ?,?");
         ps.setInt(1, Integer.parseInt(pagination));
         ps.setInt(2, Integer.parseInt(nbItems));
+        ResultSet result = ps.executeQuery();
+        ArrayList<Signalement> signalement = new ArrayList<Signalement>();
+        Signalement s = null;
+        while(result.next()){
+            s = new Signalement(result.getString("id"),result.getString("idUtilisateur"),result.getString("idCategory"),result.getString("description"),
+                                result.getDate("dateSignalement"),result.getFloat("latitude"),result.getFloat("longitude"), result.getString("nomC"));
+            signalement.add(s);
+        }
+        c.close();
+        return signalement; 
+    }
+    
+    public int getNbSignalementNonReponduEtNonAssigne(Object connexion) throws Exception {
+        Connection c = ((Connexion)connexion).getConnexion();
+        PreparedStatement ps = c.prepareStatement("select COUNT(*) as Nb from Signalement join Category on Category.id = Signalement.idCategory where Signalement.id not in (select id from vSignalementRepondu) and Signalement.id not in (select idSignalement from Affectation)");
+        ResultSet result = ps.executeQuery();
+        int results = 0;
+        while(result.next()){
+            results = result.getInt("Nb");
+        }
+        c.close();
+        return results;
+    }
+    
+    public ArrayList<Signalement> getSignalementNonReponduEtNonAssigne(Object connexion, int pagination, int nbItems) throws Exception {
+        Connection c = ((Connexion)connexion).getConnexion();
+        PreparedStatement ps = c.prepareStatement("select *, Category.nom as nomC from Signalement join Category on Category.id = Signalement.idCategory where Signalement.id not in (select id from vSignalementRepondu) and Signalement.id not in (select idSignalement from Affectation) LIMIT ?,?");
+        ps.setInt(1, pagination);
+        ps.setInt(2, nbItems);
         ResultSet result = ps.executeQuery();
         ArrayList<Signalement> signalement = new ArrayList<Signalement>();
         Signalement s = null;

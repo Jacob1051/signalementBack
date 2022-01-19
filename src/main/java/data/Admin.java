@@ -41,9 +41,9 @@ public class Admin {
     }
     
     public Admin checkLogin(Connexion connexion, String id, String mdp) throws Exception {
-        Connection c = connexion.getDataSource().getConnection();
+        Connection c = connexion.getConnexion();
         PreparedStatement ps = c.prepareStatement("select * from Admin where id = ? and mdp = sha1(?)");
-        ps.setInt(1, Integer.parseInt(id));
+        ps.setString(1, id);
         ps.setString(2, mdp);
         ResultSet result = ps.executeQuery();
         Admin admin = null;

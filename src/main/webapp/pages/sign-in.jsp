@@ -64,11 +64,11 @@
                 <form role="form" class="text-start" method="post" action="${pageContext.request.contextPath}/Login?action=in" >
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label">ID</label>
-                    <input type="text" class="form-control" name="id">
+                    <input type="text" class="form-control" name="id" required>
                   </div>
                   <div class="input-group input-group-outline mb-3">
                     <label class="form-label">Password</label>
-                    <input type="password" class="form-control" name="mdp">
+                    <input type="password" class="form-control" name="mdp" required>
                   </div>
                   <div class="text-center">
                     <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2">Connexion</button>
